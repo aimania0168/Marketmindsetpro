@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Liquidity Hunters · Market Mindset Pro</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #0b0d10;
+      color: #eaeef2;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .app {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    /* header / profile */
+    .profile-card {
+      text-align: center;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #2a2f3a, #1b1e24);
+      margin: 0 auto 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      border: 2px solid #3d4553;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .profile-card h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #f0f4fa, #b0c7e7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .profile-card .bio {
+      color: #9aa9bb;
+      margin-top: 0.25rem;
+      font-size: 1rem;
+    }
+
+    /* cards */
+    .product-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .product-card {
+      background: #14181f;
+      border-radius: 28px;
+      padding: 1.5rem 1.2rem 1.8rem;
+      border: 1px solid #29303b;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.7);
+      transition: all 0.15s;
+    }
+
+    .product-card:hover {
+      border-color: #4b5b72;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-header i {
+      font-size: 2rem;
+      width: 3rem;
+      height: 3rem;
+      background: #1f2733;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b8cef0;
+    }
+
+    .card-header h2 {
+      font-weight: 600;
+      font-size: 1.5rem;
+      letter-spacing: -0.3px;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin: 0.25rem 0 0.5rem;
+      font-size: 0.9rem;
+      color: #a6b7ce;
+    }
+
+    .product-meta span {
+      background: #1e2733;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .price-badge {
+      background: #1f3a4b !important;
+      color: #9fc9ff !important;
+      font-weight: 500;
+    }
+
+    .desc {
+      margin: 0.5rem 0 1rem;
+      line-height: 1.5;
+      color: #ccd9e9;
+    }
+
+    .desc strong {
+      color: #e8effa;
+    }
+
+    .benefits {
+      list-style: none;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .benefits li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      padding: 0.3rem 0;
+      color: #c6d4e5;
+      line-height: 1.4;
+    }
+
+    .benefits li i {
+      color: #5f8fd9;
+      width: 1.2rem;
+      font-size: 0.85rem;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .btn-primary {
+      background: #2b4b7a;
+      border: none;
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid #3f6290;
+      margin-top: 0.25rem;
+    }
+
+    .btn-primary i {
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      background: #3463a0;
+      border-color: #6090d0;
+      transform: scale(1.01);
+    }
+
+    .btn-secondary {
+      background: #1f2a39;
+      border: 1px solid #384559;
+      color: #e0eaf5;
+    }
+
+    .btn-secondary:hover {
+      background: #2b3b52;
+      border-color: #5a6f8d;
+    }
+
+    .telegram-badge {
+      background: #1e3a4d;
+      color: #8bc1ff;
+    }
+
+    /* payment panel (hidden by default) */
+    .payment-panel {
+      background: #11171f;
+      border-radius: 24px;
+      padding: 1.5rem;
+      margin: 1.8rem 0;
+      border: 1px solid #314155;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .payment-panel.open {
+      display: block;
+    }
+
+    .payment-panel h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .wallet-box {
+      background: #0b1017;
+      border-radius: 16px;
+      padding: 1rem;
+      border: 1px dashed #3b506b;
+      word-break: break-all;
+      font-family: 'SF Mono', 'Menlo', monospace;
+      font-size: 0.85rem;
+      margin: 0.5rem 0 1rem;
+      color: #b8ccf0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wallet-box .copy-btn {
+      background: #1f2a3b;
+      border: 1px solid #3b506b;
+      color: #9ab0d0;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      flex-shrink: 0;
+      transition: 0.2s;
+    }
+
+    .wallet-box .copy-btn:hover {
+      background: #2d3f58;
+      color: #fff;
+    }
+
+    .wallet-box .wallet-address {
+      flex: 1;
+      word-break: break-all;
+    }
+
+    .qr-placeholder {
+      background: #0f151e;
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid #2d3d53;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .qr-placeholder i {
+      font-size: 5rem;
+      color: #6883a8;
+      opacity: 0.7;
+    }
+
+    .qr-placeholder .qr-label {
+      font-size: 0.8rem;
+      color: #889bb5;
+      margin-top: 4px;
+    }
+
+    .payment-instructions {
+      background: #1a2330;
+      padding: 0.8rem 1rem;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      border-left: 4px solid #4a74b0;
+      line-height: 1.6;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .input-group input {
+      background: #0d131c;
+      border: 1px solid #2b3a4f;
+      padding: 0.9rem 1rem;
+      border-radius: 40px;
+      color: white;
+      font-size: 0.95rem;
+    }
+
+    .input-group input::placeholder {
+      color: #5f738d;
+    }
+
+    .btn-success {
+      background: #1c6b4b;
+      border-color: #2c8f64;
+    }
+
+    .btn-success:hover {
+      background: #258a5e;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .flex-row .btn-primary {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .faq-section {
+      margin: 2.5rem 0 1rem;
+      background: #10161f;
+      border-radius: 24px;
+      padding: 1.5rem 1.2rem;
+    }
+
+    .faq-section h4 {
+      margin-bottom: 1rem;
+      font-weight: 500;
+      color: #b2c8e5;
+    }
+
+    .faq-item {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #1f293b;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-item strong {
+      color: #d2def5;
+    }
+
+    .faq-item p {
+      color: #95a9c2;
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+    }
+
+    /* responsive */
+    @media (min-width: 500px) {
+      .product-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .product-card {
+        flex: 1 1 calc(50% - 0.9rem);
+      }
+    }
+
+    @media (max-width: 499px) {
+      .product-card {
+        padding: 1.2rem 1rem;
+      }
+      .wallet-box {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .wallet-box .copy-btn {
+        align-self: flex-start;
+      }
+    }
+
+    /* dark mode scroll */
+    ::-webkit-scrollbar {
+      width: 6px;
+      background: #0b0f15;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a3b52;
+      border-radius: 10px;
+    }
+
+    /* success animation */
+    .success-box {
+      margin-top: 12px;
+      background: #1a2d3a;
+      padding: 1rem;
+      border-radius: 20px;
+      border: 1px solid #3b6b5a;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-box a {
+      color: #9ac9ff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .success-box a:hover {
+      text-decoration: underline;
+    }
+
+    .status-success {
+      color: #7ae0a0;
+    }
+
+    .status-error {
+      color: #f7a07a;
+    }
+
+    .status-loading {
+      color: #9bc9ff;
+    }
+  </style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- Profile header -->
+  <div class="profile-card">
+    <div class="avatar"><i class="fas fa-chart-line" style="color: #5f8fd9;"></i></div>
+    <h1>Market Mindset Pro</h1>
+    <div class="bio">📘 Liquidity Hunters · 💎 Smart Money Concepts</div>
+  </div>
+
+  <!-- Product cards -->
+  <div class="product-grid">
+    <!-- Ebook card -->
+    <div class="product-card">
+      <div class="card-header">
+        <i class="fas fa-book-open"></i>
+        <h2>Ebook</h2>
+      </div>
+      <div class="product-meta">
+        <span><i class="fas fa-file-pdf"></i> PDF</span>
+        <span class="price-badge"><i class="fas fa-coins"></i> 41 USDT</span>
+      </div>
+      <div class="desc">
+        <strong>“Liquidity Hunters: Mastering Smart Money Concepts”</strong>
+      </div>
+      <ul class="benefits">
+        <li><i class="fas fa-check-circle"></i> Understand how Smart Money and institutions truly move the market</li>
+        <li><i class="fas fa-check-circle"></i> Identify high-probability trade setups with confidence</li>
+        <li><i class="fas fa-check-circle"></i> Learn to read market structure like professional traders</li>
+        <li><i class="fas fa-check-circle"></i> Discover liquidity zones and institutional footprints</li>
+        <li><i class="fas fa-check-circle"></i> Improve your entries and exits with greater precision</li>
+        <li><i class="fas fa-check-circle"></i> Reduce emotional trading and avoid common retail mistakes</li>
+        <li><i class="fas fa-check-circle"></i> Apply proven risk management principles to protect capital</li>
+        <li><i class="fas fa-check-circle"></i> Build a structured trading approach instead of guessing</li>
+        <li><i class="fas fa-check-circle"></i> Develop a trader mindset focused on consistency</li>
+      </ul>
+      <button class="btn-primary" id="showEbookPayment"><i class="fas fa-shopping-cart"></i> Buy Now — 41 USDT</button>
+    </div>
+
+    <!-- Telegram card -->
+    <div class="product-card">
+      <div class="card-header">
+        <i class="fab fa-telegram-plane"></i>
+        <h2>Telegram</h2>
+      </div>
+      <div class="product-meta">
+        <span><i class="fas fa-users"></i> Private Community</span>
+        <span class="price-badge telegram-badge"><i class="fas fa-coins"></i> 107 USDT / mo</span>
+      </div>
+      <div class="desc">
+        <strong>Paid Signals & Smart Money Insights</strong> – Daily trade ideas, market analysis, and direct mentorship.
+      </div>
+      <ul class="benefits">
+        <li><i class="fas fa-check-circle"></i> Live trade signals with entry/exit levels</li>
+        <li><i class="fas fa-check-circle"></i> Smart Money Concepts breakdowns</li>
+        <li><i class="fas fa-check-circle"></i> Daily market analysis and Q&A</li>
+        <li><i class="fas fa-check-circle"></i> Exclusive institutional insights</li>
+      </ul>
+      <button class="btn-primary" id="showTelegramPayment"><i class="fas fa-paper-plane"></i> Join Channel — 107 USDT</button>
+    </div>
+  </div>
+
+  <!-- DYNAMIC PAYMENT PANEL (EBOOK or TELEGRAM) -->
+  <div id="paymentPanel" class="payment-panel">
+    <h3 id="panelTitle"><i class="fas fa-wallet"></i> Payment</h3>
+    <div id="panelContent">
+      <!-- dynamic content injected by js -->
+    </div>
+  </div>
+
+  <!-- FAQ section -->
+  <div class="faq-section">
+    <h4><i class="fas fa-question-circle" style="margin-right: 8px;"></i> Frequently Asked Questions</h4>
+    <div class="faq-item">
+      <strong>How do I get the ebook after payment?</strong>
+      <p>After your USDT payment is verified, you'll get an instant download link (expires in 24h for security).</p>
+    </div>
+    <div class="faq-item">
+      <strong>How do I access the Telegram channel?</strong>
+      <p>Once payment is confirmed, you'll receive an invite link to join our private community instantly.</p>
+    </div>
+    <div class="faq-item">
+      <strong>Which network should I use?</strong>
+      <p>We accept USDT on the TRC20 network (Tron). Please ensure you select TRC20 when sending.</p>
+    </div>
+    <div class="faq-item" style="border: none; padding-bottom: 0;">
+      <strong>What is Smart Money Concepts?</strong>
+      <p>Smart Money Concepts (SMC) is a trading methodology that tracks institutional order flow, liquidity zones, and market structure to identify high-probability trades.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function() {
+    // ----- CONFIG (UPDATED WITH YOUR DETAILS) -----
+    const CONFIG = {
+      ebookPrice: '41 USDT',
+      ebookPriceNum: 41,
+      telegramPrice: '107 USDT',
+      telegramPriceNum: 107,
+      walletAddress: 'TXZXcWxS46w85s7En7tDNDVRXAPetLCAvZ',
+      qrData: 'TRC20: TXZXcWxS46w85s7En7tDNDVRXAPetLCAvZ',
+      telegramLink: 'https://t.me/+akT57RQa4VVlNWVk',
+    };
+
+    // DOM refs
+    const panel = document.getElementById('paymentPanel');
+    const panelTitle = document.getElementById('panelTitle');
+    const panelContent = document.getElementById('panelContent');
+
+    // Copy wallet address function
+    function copyWalletAddress(address) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(address).then(() => {
+          showToast('✅ Wallet address copied!');
+        }).catch(() => {
+          fallbackCopy(address);
+        });
+      } else {
+        fallbackCopy(address);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('✅ Wallet address copied!');
+      } catch (err) {
+        showToast('❌ Could not copy. Please copy manually.');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showToast(msg) {
+      const existing = document.querySelector('.toast-msg');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e2a3a;
+        color: #eaeef2;
+        padding: 12px 24px;
+        border-radius: 40px;
+        border: 1px solid #3b506b;
+        font-size: 0.9rem;
+        z-index: 999;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+        animation: fadeInUp 0.3s ease;
+        max-width: 90%;
+        text-align: center;
+      `;
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s';
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+
+    // helper: build payment UI for product type
+    function renderPaymentPanel(type) {
+      const isEbook = (type === 'ebook');
+      const title = isEbook ? '📘 Pay for Ebook' : '📱 Pay for Telegram Channel';
+      const price = isEbook ? CONFIG.ebookPrice : CONFIG.telegramPrice;
+      const priceNum = isEbook ? CONFIG.ebookPriceNum : CONFIG.telegramPriceNum;
+      const itemName = isEbook ? 'Ebook "Liquidity Hunters"' : 'Telegram channel access (monthly)';
+      const walletAddr = CONFIG.walletAddress;
+      const telegramLink = CONFIG.telegramLink;
+
+      let html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
+          <span style="font-weight: 500;">${itemName}</span>
+          <span style="background: #1e3347; padding: 0.2rem 1rem; border-radius: 40px; font-weight: 600;">${price}</span>
+        </div>
+        <div style="margin: 1rem 0 0.5rem;">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+            <span style="background: #1d2a3b; padding: 0.2rem 1rem; border-radius: 30px; font-size: 0.8rem;"><i class="fas fa-circle" style="color: #3fc46e; font-size: 0.5rem;"></i> USDT (TRC20)</span>
+            <span style="background: #1d2a3b; padding: 0.2rem 1rem; border-radius: 30px; font-size: 0.8rem;"><i class="fab fa-bitcoin"></i> BTC</span>
+            <span style="background: #1d2a3b; padding: 0.2rem 1rem; border-radius: 30px; font-size: 0.8rem;"><i class="fab fa-ethereum"></i> ETH</span>
+          </div>
+        </div>
+        <div class="wallet-box">
+          <span class="wallet-address"><i class="fas fa-qrcode" style="margin-right: 8px;"></i> ${walletAddr}</span>
+          <button class="copy-btn" onclick="copyWalletAddress('${walletAddr}')"><i class="fas fa-copy"></i> Copy</button>
+        </div>
+        <div class="qr-placeholder">
+          <i class="fas fa-qrcode"></i>
+          <div class="qr-label">USDT TRC20 — Scan to pay</div>
+        </div>
+        <div class="payment-instructions">
+          <i class="fas fa-info-circle" style="margin-right: 8px;"></i> 
+          <strong>Send exactly ${price} USDT (TRC20)</strong> to the address above.<br>
+          After payment, paste your transaction hash below to verify instantly.
+        </div>
+        <div class="input-group">
+          <input type="text" id="txHashInput" placeholder="Paste transaction hash / TXID" value="">
+          <div class="flex-row">
+            <button class="btn-primary btn-success" id="verifyPaymentBtn"><i class="fas fa-check-circle"></i> Verify & get access</button>
+            <button class="btn-primary btn-secondary" id="closePaymentBtn"><i class="fas fa-times"></i> Cancel</button>
+          </div>
+        </div>
+        <div id="paymentStatus" style="margin-top: 0.75rem; font-size: 0.9rem;"></div>
+      `;
+
+      panelTitle.innerHTML = `<i class="fas fa-wallet"></i> ${title}`;
+      panelContent.innerHTML = html;
+
+      // open panel
+      panel.classList.add('open');
+
+      // attach events
+      document.getElementById('closePaymentBtn').addEventListener('click', function() {
+        panel.classList.remove('open');
+      });
+
+      document.getElementById('verifyPaymentBtn').addEventListener('click', function() {
+        const txInput = document.getElementById('txHashInput');
+        const statusDiv = document.getElementById('paymentStatus');
+        const tx = txInput.value.trim();
+
+        if (!tx) {
+          statusDiv.innerHTML = `<span class="status-error"><i class="fas fa-exclamation-triangle"></i> Please paste a transaction hash.</span>`;
+          return;
+        }
+
+        // Simulate automatic verification (demo) 
+        statusDiv.innerHTML = `<span class="status-loading"><i class="fas fa-spinner fa-pulse"></i> Verifying on-chain... (TRC20)</span>`;
+
+        setTimeout(() => {
+          // auto success (demo) 
+          if (tx.length > 5) {
+            statusDiv.innerHTML = `<span class="status-success"><i class="fas fa-check-circle"></i> ✅ Payment confirmed! (${price} USDT received)</span>`;
+
+            // show download / invite based on type
+            if (isEbook) {
+              statusDiv.innerHTML += `
+                <div class="success-box">
+                  <i class="fas fa-file-download" style="margin-right: 10px;"></i> 
+                  <a href="#" onclick="alert('📥 Download: Liquidity-Hunters-Smart-Money-Concepts.pdf (expires in 24h)')">
+                    📥 Download Ebook Now
+                  </a>
+                  <div style="font-size: 0.7rem; color: #6f8aa5; margin-top: 4px;">
+                    ⏳ Link expires in 24h · one-time use · secure access
+                  </div>
+                </div>
+              `;
+            } else {
+              statusDiv.innerHTML += `
+                <div class="success-box" style="border-color: #2f6b8a;">
+                  <i class="fab fa-telegram" style="margin-right: 10px;"></i> 
+                  <a href="${telegramLink}" target="_blank">
+                    🔗 Join Telegram Channel Now
+                  </a>
+                  <div style="font-size: 0.7rem; color: #6f8aa5; margin-top: 4px;">
+                    ✅ Access granted · welcome to the Smart Money community
+                  </div>
+                </div>
+              `;
+            }
+
+            // disable verify button to avoid double action
+            const verifyBtn = document.getElementById('verifyPaymentBtn');
+            verifyBtn.disabled = true;
+            verifyBtn.style.opacity = '0.5';
+            verifyBtn.innerHTML = '<i class="fas fa-check"></i> Verified ✓';
+          } else {
+            statusDiv.innerHTML = `<span class="status-error"><i class="fas fa-times-circle"></i> Invalid hash, please check and try again.</span>`;
+          }
+        }, 1800);
+      });
+    }
+
+    // Expose copy function to global scope for inline onclick
+    window.copyWalletAddress = copyWalletAddress;
+
+    // ----- event listeners for product buttons -----
+    document.getElementById('showEbookPayment').addEventListener('click', function(e) {
+      e.preventDefault();
+      renderPaymentPanel('ebook');
+    });
+
+    document.getElementById('showTelegramPayment').addEventListener('click', function(e) {
+      e.preventDefault();
+      renderPaymentPanel('telegram');
+    });
+
+    // close panel on ESC
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) {
+        panel.classList.remove('open');
+      }
+    });
+  })();
+</script>
+
+</body>
+          </html>
